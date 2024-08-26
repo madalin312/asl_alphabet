@@ -1,0 +1,18 @@
+Possible additional augmentation methods:
+	->Erosion and Dilation: These morphological operations can help simulate variations in the hand's edge definitions, which can be affected by video compression artifacts or camera focus issues.
+	->Color Perturbation: Even if you convert images to grayscale, slight changes in color (for RGB images before conversion) can help if the model initially trains on RGB images to learn better invariances.
+
+EfficientNetB0_1:
+train_datagen = ImageDataGenerator(
+    rotation_range=20,
+    width_shift_range=0.05,
+    height_shift_range=0.05,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest',
+    preprocessing_function=apply_augmentations
+)
+augmentations: brightness, erosion, dilation
+preprocessing: grayscale, resize to 128x128, normalization, no background segmentation
+results: 99 percent test score; In real time it fails on G, A, and a few more, but is generally good when the background is neutral; when doing the signs next to body it fails consistently.
